@@ -1,0 +1,91 @@
+<html>
+<head>
+ <title>Personal Blog</title>
+   <link rel="stylesheet" href="css/main.css">
+   <link rel="stylesheet" href="css/mobile.css">
+</head>
+<body>
+ <header>
+    <img src="images/bender.jpg" alt="Bender Photo"/>
+    <h1>Kill all humans </h1>
+ </header>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="login.html">Login</a>
+    <a href="signup.html">Signup</a>
+    <a href="feedback.html">Feedback</a>
+    <a href="search.html">Search</a>
+  </nav>
+
+  <div class="row"> 
+    <form id="search-form" action="search.html" method="GET">
+      <input type="text" id="search-input" name="q" placeholder="Search...">
+      <button type="submit">Search</button>
+    </form>
+  </div>
+
+  <section id="articles">
+    
+  </section>
+
+  <footer>
+    &copy; K105 KhAI
+  </footer>
+
+  <script>
+    const posts = [
+      {
+        title: "Kif, I have mated with a woman. Inform the men.",
+        content: "I am the man with no name, Zapp Brannigan! Who's brave enough to fly into something we all keep calling a death sphere? Meh. And until then, I can never die?."
+      },
+      {
+        title: "Kids don't turn rotten just from watching TV.",
+        content: "Oh yeah, good luck with that. I haven't felt much of anything since my guinea pig died. I'll tell them you went down prying the wedding ring off his cold, dead finger."
+      }
+    ];
+
+    function getQueryParam(name) {
+      const params = new URLSearchParams(window.location.search);
+      return params.get(name);
+    }
+
+    function searchPosts() {
+      const query = getQueryParam("q");
+      const articlesSection = document.getElementById("articles");
+
+      if (!query) {
+        articlesSection.innerHTML = "<p>Please enter a search term.</p>";
+        return;
+      }
+
+      const q = query.toLowerCase();
+
+      const filtered = posts.filter(post =>
+        post.title.toLowerCase().includes(q) ||
+        post.content.toLowerCase().includes(q)
+      );
+
+      if (filtered.length === 0) {
+        articlesSection.innerHTML = "<p>No results found.</p>";
+        return;
+      }
+
+      articlesSection.innerHTML = ""; 
+
+      filtered.forEach(post => {
+        const article = document.createElement("article");
+
+        article.innerHTML = `
+          <h2>${post.title}</h2>
+          <p>${post.content}</p>
+          <a href="#" class="read-more">Read more</a>
+        `;
+
+        articlesSection.appendChild(article);
+      });
+    }
+
+    window.addEventListener("DOMContentLoaded", searchPosts);
+  </script>
+</body>
+</html>
